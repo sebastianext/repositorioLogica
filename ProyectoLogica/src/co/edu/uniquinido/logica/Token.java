@@ -67,8 +67,5 @@ public class Token {
 	 */
 	public void setIndice(int indice) {
 		this.indice = indice;
-	}
-	
-	
-	
+	}	
 }

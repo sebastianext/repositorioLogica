@@ -27,6 +27,41 @@ public class TablaVerdad {
 	private int columnas;
 	private Formula formula;
 	
+	public TablaVerdad(Formula f){
+		formula= f;
+		combinaciones=0;
+	}
+	
+	
+	public void calcularCombinaciones(){
+		
+		combinaciones=(int)Math.pow(2, formula.getAtomos().size());
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Metodo que permite obtener combinaciones
 	 * @return el combinaciones

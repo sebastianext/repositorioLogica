@@ -1,0 +1,25 @@
+18:03:40,196 TRACE [ContextManager] ContextManager starting, bundle version: 2.0.0.201207181003
+18:03:40,716 DEBUG [PropertyChangeListenerImp] Property change listener is enabled.
+18:03:40,890 DEBUG [ComponentPackUtils] Starting Search for CPs
+18:03:40,959 DEBUG [ComponentPackUtils] CP named BlackBerry Java SDK version 4.5.0 was found at D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack4.5.0_4.5.0.30\components
+18:03:41,042 DEBUG [ComponentPackUtils] CP named BlackBerry Java SDK version 5.0.0 was found at D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack5.0.0_5.0.0.36\components
+18:03:41,073 DEBUG [ComponentPackUtils] CP named BlackBerry Java SDK version 6.0.0 was found at D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack6.0.0_6.0.0.43\components
+18:03:41,114 DEBUG [ComponentPackUtils] CP named BlackBerry Java SDK version 7.0.0 was found at D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack7.0.0_7.0.0.33\components
+18:03:41,147 DEBUG [ComponentPackUtils] CP named BlackBerry Java SDK version 7.1.0 was found at D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack7.1.0_7.1.0.10\components
+18:03:43,940 DEBUG [RuntimeInstallsHandler] VM: *ADDED* [1395529423911$C:\Program Files (x86)\Java\jre7]
+18:03:43,948 DEBUG [RuntimeInstallsHandler] Event [org.eclipse.jdt.launching.PROPERTY_JAVADOC_LOCATION] for: *OLD* was[http://download.oracle.com/javase/7/docs/api/] *NEW* is [].
+18:03:44,079 TRACE [VMUtils] Attempting to create VM with name - BlackBerry JRE 7.1.0
+18:03:44,133 DEBUG [RuntimeInstallsHandler] VM: *ADDED* [BlackBerry JRE 7.1.0$D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack7.1.0_7.1.0.10\components]
+18:03:44,189 TRACE [PropertyChangeListenerImp] openStartupOnEclpseFirstStart was changed from "false" to "false"
+18:03:44,618 TRACE [VMUtils] Attempting to create VM with name - BlackBerry JRE 7.0.0
+18:03:44,683 DEBUG [RuntimeInstallsHandler] VM: *ADDED* [BlackBerry JRE 7.0.0$D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack7.0.0_7.0.0.33\components]
+18:03:45,010 TRACE [VMUtils] Attempting to create VM with name - BlackBerry JRE 6.0.0
+18:03:45,064 DEBUG [RuntimeInstallsHandler] VM: *ADDED* [BlackBerry JRE 6.0.0$D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack6.0.0_6.0.0.43\components]
+18:03:45,160 TRACE [VMUtils] Attempting to create VM with name - BlackBerry JRE 5.0.0
+18:03:45,211 DEBUG [RuntimeInstallsHandler] VM: *ADDED* [BlackBerry JRE 5.0.0$D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack5.0.0_5.0.0.36\components]
+18:03:45,226 TRACE [VMUtils] Attempting to create VM with name - BlackBerry JRE 4.5.0
+18:03:45,271 DEBUG [RuntimeInstallsHandler] VM: *ADDED* [BlackBerry JRE 4.5.0$D:\Eclipses\eclipse\plugins\net.rim.ejde.componentpack4.5.0_4.5.0.30\components]
+18:03:45,314 DEBUG [BundleListenerHandler] Bundle [net.rim.ejde] is changing state to Started.
+18:03:45,316 TRACE [ContextManager] ContextManager startingneed update: true
+18:03:45,824 DEBUG [UpgradingNotification] qualifier: 0
+18:04:07,697 DEBUG [UpgradingNotification] qualifier: 19

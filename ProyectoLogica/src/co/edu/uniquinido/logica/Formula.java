@@ -59,8 +59,8 @@ public class Formula {
 
 	
 	public boolean buscarAtomo(char letra){
-		for (int i = 0; i < atomos.size(); i++) {
-			if (atomos.get(i).getLexema().equals(String.valueOf(letra))) {
+		for (Atomo atomo: atomos) {
+			if (atomo.getLexema().equals(String.valueOf(letra))) {
 				return true;
 			}
 		}
@@ -96,6 +96,35 @@ public class Formula {
 		}
 		return conector;
 	}
+//	public String extraerConector(String formula, int indice){
+//
+//		if( !esSimbolo(formula.charAt(indice)) )
+//			return null;
+//
+//		// Halla el índice del siguiente lexema
+//		int indiceSiguiente=indice;
+//
+//		String conector="";
+//		if( indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='<' ){
+//			indiceSiguiente++;
+//			if ( indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='-' ) {
+//				indiceSiguiente++;
+//				if ( indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='>' ) {
+//					conector=formula.substring(indice, indiceSiguiente+1);
+//				}
+//			}
+//		}
+//		if (indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='-') {
+//			indiceSiguiente++;
+//			if ( indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='>' ) {
+//				conector=formula.substring(indice, indiceSiguiente+1);
+//			}
+//		}
+//		if (esConector(formula.charAt(indiceSiguiente))) {
+//			conector=formula.substring(indice, indiceSiguiente+1);
+//		}
+//		return conector;
+//	}
 
 	/**
 	 * Determina si un carácter es un simbolo

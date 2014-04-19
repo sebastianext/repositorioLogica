@@ -22,7 +22,6 @@ package co.edu.uniquinido.logica;
  */
 public class Constantes {
 
-	
 	public final static String NEGADO = "¬";
 	public final static String NEGADO2 = "~";
 	public final static String CONJUNCION = "^";

@@ -24,10 +24,9 @@ import java.util.ArrayList;
  */
 public class SubFormula {
 	
-	private String der;
-	private String izq;
+	private SubFormulaDerecha der;
+	private SubFormulaIzquierda izq;
 	private String conector;
-	private ArrayList<String> soluciones;
 	/**
 	 * Metodo Costructor que inicializa las variables
 	 * @param der
@@ -35,56 +34,49 @@ public class SubFormula {
 	 * @param conector
 	 * @param soluciones
 	 */
-	public SubFormula(String der, String izq, String conector,ArrayList<String> soluciones) {
+	public SubFormula(SubFormulaDerecha der, SubFormulaIzquierda izq, String conector) {
 		super();
 		this.der = der;
 		this.izq = izq;
 		this.conector = conector;
-		this.soluciones=soluciones;
+		
 	}
 	
-	/**
-	 * Metodo Costructor que inicializa las variables
-	 * @param der
-	 * @param izq
-	 * @param conector
-	 * @param soluciones
-	 */
-	public SubFormula(String der, String izq, String conector) {
-		super();
-		this.der = der;
-		this.izq = izq;
-		this.conector = conector;
-		soluciones = new ArrayList<String>();
-	}
+	
+	
+	
 	/**
 	 * Metodo que permite obtener der
 	 * @return el der
 	 */
-	public String getDer() {
+	public SubFormulaDerecha getDer() {
 		return der;
 	}
+
 	/**
 	 * Metodo que permite asignar der.
 	 * @param der: el der a asignar.
 	 */
-	public void setDer(String der) {
+	public void setDer(SubFormulaDerecha der) {
 		this.der = der;
 	}
+
 	/**
 	 * Metodo que permite obtener izq
 	 * @return el izq
 	 */
-	public String getIzq() {
+	public SubFormulaIzquierda getIzq() {
 		return izq;
 	}
+
 	/**
 	 * Metodo que permite asignar izq.
 	 * @param izq: el izq a asignar.
 	 */
-	public void setIzq(String izq) {
+	public void setIzq(SubFormulaIzquierda izq) {
 		this.izq = izq;
 	}
+
 	/**
 	 * Metodo que permite obtener conector
 	 * @return el conector
@@ -99,21 +91,4 @@ public class SubFormula {
 	public void setConector(String conector) {
 		this.conector = conector;
 	}
-	/**
-	 * Metodo que permite obtener soluciones
-	 * @return el soluciones
-	 */
-	public ArrayList<String> getSoluciones() {
-		return soluciones;
-	}
-	/**
-	 * Metodo que permite asignar soluciones.
-	 * @param soluciones: el soluciones a asignar.
-	 */
-	public void setSoluciones(ArrayList<String> soluciones) {
-		this.soluciones = soluciones;
-	}
-	
-	
-	
 }

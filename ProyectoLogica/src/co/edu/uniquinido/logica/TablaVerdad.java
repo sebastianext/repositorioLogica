@@ -26,12 +26,9 @@ import java.util.Vector;
 public class TablaVerdad {
 
 	private int combinaciones;
-	//	private int filas;
-	//	private int columnas;
 	private Formula formula;
 	private ArrayList<SubFormula> subFormulas;
 	private Nodo<String> formulaNodo;
-	//	private ArrayList<SubFormula> solocionesAtomos;
 
 	public TablaVerdad(Formula f){
 		formula=f;
@@ -39,7 +36,6 @@ public class TablaVerdad {
 		formulaNodo= new Nodo<String>();
 		formula.buscarTokens();
 		calcularCombinaciones();
-		//		solocionesAtomos= new ArrayList<SubFormula>();
 	}
 
 	public void calcularCombinaciones(){
@@ -169,7 +165,6 @@ public class TablaVerdad {
 		SubFormulaDerecha subDerecha= new SubFormulaDerecha(der, null);
 		SubFormulaIzquierda subIzq = new SubFormulaIzquierda(izq, null);
 		SubFormula subformula= new SubFormula(subDerecha, subIzq, conector);
-		//		System.out.println(subformula.getIzq().getSubFormula()+subformula.getConector()+subformula.getDer().getSubFormula());
 		subFormulas.add(subformula);
 	}
 
@@ -295,7 +290,6 @@ public class TablaVerdad {
 				for (int i = 0; i < combinaciones/2; i++) {
 					soluciones.add("F");
 				}
-				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			case 2:
@@ -309,7 +303,6 @@ public class TablaVerdad {
 					}
 					c*=2;
 				}
-				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones),null));
 				break;
 			case 3:
@@ -324,7 +317,6 @@ public class TablaVerdad {
 					}
 					d*=2;
 				}
-				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			case 4:
@@ -338,7 +330,6 @@ public class TablaVerdad {
 					}
 					e*=2;
 				}
-				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			case 5:
@@ -352,7 +343,6 @@ public class TablaVerdad {
 					}
 					f*=2;
 				}
-				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			case 6:
@@ -362,7 +352,6 @@ public class TablaVerdad {
 					else
 						soluciones.add("F");
 				}
-				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			default:
@@ -371,24 +360,6 @@ public class TablaVerdad {
 			}
 		}
 	}
-
-
-	//	public boolean esConjuncion(String conector){
-	//		return conector.equals(Constantes.CONJUNCION)||conector.equals(Constantes.CONJUNCION2);
-	//	}
-	//	public boolean esDisjuncion(String conector){
-	//		return conector.equals(Constantes.DISYUNCION);
-	//	}
-	//	
-	//	public boolean esCondicional(String conector){
-	//		return conector.equals(Constantes.CONDICIONAL);
-	//	}
-	//	public boolean esBicondicional(String conector){
-	//		return conector.equals(Constantes.BICONDICIONAL);
-	//	}
-	//	public boolean esNegacion(String conector){
-	//		return conector.equals(Constantes.NEGADO)||conector.equals(Constantes.NEGADO2);
-	//	}
 
 	public ArrayList<Object> filtrarSubformulas(){
 
@@ -407,6 +378,7 @@ public class TablaVerdad {
 		}
 		return subConSoluciones;
 	}
+	
 	public String[] llenarCabecera(){
 		ArrayList<Object> formulas=filtrarSubformulas();
 		String vector[]= new String[formulas.size()];
@@ -436,34 +408,7 @@ public class TablaVerdad {
 	public void setCombinaciones(int combinaciones) {
 		this.combinaciones = combinaciones;
 	}
-	//	/**
-	//	 * Metodo que permite obtener filas
-	//	 * @return el filas
-	//	 */
-	//	public int getFilas() {
-	//		return filas;
-	//	}
-	//	/**
-	//	 * Metodo que permite asignar filas.
-	//	 * @param filas: el filas a asignar.
-	//	 */
-	//	public void setFilas(int filas) {
-	//		this.filas = filas;
-	//	}
-	//	/**
-	//	 * Metodo que permite obtener columnas
-	//	 * @return el columnas
-	//	 */
-	//	public int getColumnas() {
-	//		return columnas;
-	//	}
-	//	/**
-	//	 * Metodo que permite asignar columnas.
-	//	 * @param columnas: el columnas a asignar.
-	//	 */
-	//	public void setColumnas(int columnas) {
-	//		this.columnas = columnas;
-	//	}
+	
 	/**
 	 * Metodo que permite obtener formula
 	 * @return el formula
@@ -478,22 +423,6 @@ public class TablaVerdad {
 	public void setFormula(Formula formula) {
 		this.formula = formula;
 	}
-
-	//	/**
-	//	 * Metodo que permite obtener solocionesAtomos
-	//	 * @return el solocionesAtomos
-	//	 */
-	//	public ArrayList<SubFormula> getSolocionesAtomos() {
-	//		return solocionesAtomos;
-	//	}
-	//
-	//	/**
-	//	 * Metodo que permite asignar solocionesAtomos.
-	//	 * @param solocionesAtomos: el solocionesAtomos a asignar.
-	//	 */
-	//	public void setSolocionesAtomos(ArrayList<SubFormula> solocionesAtomos) {
-	//		this.solocionesAtomos = solocionesAtomos;
-	//	}
 
 	/**
 	 * Metodo que permite obtener subFormulas
@@ -510,6 +439,4 @@ public class TablaVerdad {
 	public void setSubFormulas(ArrayList<SubFormula> subFormulas) {
 		this.subFormulas = subFormulas;
 	}
-
-
 }

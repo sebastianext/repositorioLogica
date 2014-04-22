@@ -68,63 +68,6 @@ public class Formula {
 		return false;
 	}
 
-//	public String extraerConector(String formula, int indice){
-//
-//		if( !esSimbolo(formula.charAt(indice)) )
-//			return null;
-//
-//		// Halla el índice del siguiente lexema
-//		int indiceSiguiente=indice;
-//
-//		String conector="";
-//		if( indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='<' ){
-//			indiceSiguiente++;
-//			if ( indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='-' ) {
-//				indiceSiguiente++;
-//				if ( indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='>' ) {
-//					conector=formula.substring(indice, indiceSiguiente+1);
-//				}
-//			}
-//		}
-//		if (indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='-') {
-//			indiceSiguiente++;
-//			if ( indiceSiguiente<formula.length( ) && formula.charAt(indiceSiguiente)=='>' ) {
-//				conector=formula.substring(indice, indiceSiguiente+1);
-//			}
-//		}
-//		if (esConector(formula.charAt(indiceSiguiente))) {
-//			conector=formula.substring(indice, indiceSiguiente+1);
-//		}
-//		return conector;
-//	}
-//	/**
-//	 * Determina si un carácter es un simbolo
-//	 * @param caracter - Carácter que se va a analizar - caracter!=null,
-//	 * @return true o false según el carácter sea un simbolo  o no
-//	 */
-//	private boolean esSimbolo(char caracter){
-//		return esConector(caracter) || caracter == '-' || caracter == '<';
-//	}
-//	/**
-//	 * Determina si un carácter es una Conector
-//	 * @param caracter - Carácter que se va a analizar - caracter!=null,
-//	 * @return true o false según el carácter sea un conector  o no
-//	 */
-//	private boolean esConector(char caracter){
-//		return caracter == '&' || caracter == 'V' || caracter == '~';
-//	}
-
-
-
-//	/**
-//	 * Determina si un carácter es una letra
-//	 * @param caracter - Carácter que se va a analizar - caracter!=null,
-//	 * @return true o false según el carácter sea una letra  o no
-//	 */
-//	private boolean esAtomo(char caracter){
-//		return ( caracter >= 'a' && caracter <= 'z');
-//	}
-
 	/**
 	 * Metodo que permite obtener formula
 	 * @return el formula

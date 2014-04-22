@@ -27,7 +27,7 @@ public class Constantes {
 	public final static String CONJUNCION = "^";
 	public final static String CONJUNCION2= "&";
 	public final static String DISYUNCION = "V";
-	public final static String IMPLICACION = "→";
-	public final static String EQUIVALENCIA = "↔";
+	public final static String CONDICIONAL = "→";
+	public final static String BICONDICIONAL = "↔";
 	
 }

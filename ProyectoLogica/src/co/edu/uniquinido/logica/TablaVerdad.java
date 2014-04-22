@@ -26,12 +26,12 @@ import java.util.Vector;
 public class TablaVerdad {
 
 	private int combinaciones;
-	private int filas;
-	private int columnas;
+	//	private int filas;
+	//	private int columnas;
 	private Formula formula;
 	private ArrayList<SubFormula> subFormulas;
 	private Nodo<String> formulaNodo;
-	private ArrayList<SubFormula> solocionesAtomos;
+	//	private ArrayList<SubFormula> solocionesAtomos;
 
 	public TablaVerdad(Formula f){
 		formula=f;
@@ -39,11 +39,31 @@ public class TablaVerdad {
 		formulaNodo= new Nodo<String>();
 		formula.buscarTokens();
 		calcularCombinaciones();
-		solocionesAtomos= new ArrayList<SubFormula>();
+		//		solocionesAtomos= new ArrayList<SubFormula>();
 	}
 
 	public void calcularCombinaciones(){
 		combinaciones=(int)Math.pow(2, formula.getAtomos().size());
+	}
+	public Nodo<String> darArbol(String formula) throws Exception
+	{
+		subFormulas.add(new SubFormula(null,new SubFormulaIzquierda(formula, null),null));
+		String []division = descomposicionFormula(formula);
+		if (division[0].length()!=1||division[1]!=null||division[2]!=null) {
+			formarSubformulas(division);
+		}
+		formulaNodo.setInformacion(division[1]);
+		formulaNodo.setIzquierdo(new Nodo<String>());
+		formulaNodo.getIzquierdo().setInformacion((isRecursivo(division[0],formulaNodo.getIzquierdo())));
+
+		if(division[2] != null)
+		{
+			formulaNodo.setDerecho(new Nodo<String>());
+			formulaNodo.getDerecho().setInformacion(isRecursivo(division[2],formulaNodo.getDerecho()));
+		}
+
+		ordenarSubformulas();
+		return formulaNodo;
 	}
 	public String[] descomposicionFormula(String formula){
 
@@ -51,7 +71,7 @@ public class TablaVerdad {
 		if (formula.length()==1) {
 			vector[0] = formula;
 		}else {
-			if (formula.charAt(0)=='~') {
+			if (MetodosPredicados.esNegacion(String.valueOf(formula.charAt(0)))) {
 				vector[1]=String.valueOf(formula.charAt(0));
 				vector[0]=formula.substring(2, formula.length()-1);
 			}else{
@@ -74,43 +94,29 @@ public class TablaVerdad {
 	}
 
 	private String isRecursivo(String formula, Nodo<String> nodo) throws Exception
-	{
-		String []division = descomposicionFormula(formula);
-		if (division[0].length()!=1||division[1]!=null||division[2]!=null) {
-			formarSubformulas(division);
-		}
-		if(division[1]==null){
-			return division[0];
-		}
+	{	
+		try {
 
-		nodo.setIzquierdo(new Nodo<String>());
-		nodo.getIzquierdo().setInformacion(isRecursivo(division[0], nodo.getIzquierdo()));
+			String []division = descomposicionFormula(formula);
+			if (division[0].length()!=1||division[1]!=null||division[2]!=null) {
+				formarSubformulas(division);
+			}
+			if(division[1]==null){
+				return division[0];
+			}
 
-		if(division[2] != null){
-			nodo.setDerecho(new Nodo<String>());
-			nodo.getDerecho().setInformacion(isRecursivo(division[2],  nodo.getDerecho()));
+			nodo.setIzquierdo(new Nodo<String>());
+			nodo.getIzquierdo().setInformacion(isRecursivo(division[0], nodo.getIzquierdo()));
+
+			if(division[2] != null){
+				nodo.setDerecho(new Nodo<String>());
+				nodo.getDerecho().setInformacion(isRecursivo(division[2],  nodo.getDerecho()));
+			}
+			return division[1];
+		} 
+		catch (Exception e) {
+			throw new Excepcion("No es una formula bien formada, Faltan parentesis. Verifique la expresion ingresada.");
 		}
-		return division[1];
-	}
-
-	public Nodo<String> darArbol(String formula) throws Exception
-	{
-		String []division = descomposicionFormula(formula);
-		if (division[0].length()!=1||division[1]!=null||division[2]!=null) {
-			formarSubformulas(division);
-		}
-		formulaNodo.setInformacion(division[1]);
-		formulaNodo.setIzquierdo(new Nodo<String>());
-		formulaNodo.getIzquierdo().setInformacion((isRecursivo(division[0],formulaNodo.getIzquierdo())));
-
-		if(division[2] != null)
-		{
-			formulaNodo.setDerecho(new Nodo<String>());
-			formulaNodo.getDerecho().setInformacion(isRecursivo(division[2],formulaNodo.getDerecho()));
-		}
-
-		//		ordenarSubformulas();
-		return formulaNodo;
 	}
 
 	public void ordenarSubformulas(){
@@ -124,9 +130,21 @@ public class TablaVerdad {
 		for(i=0;i<vector.length-1;i++){
 			for(j=0;j<vector.length-i-1;j++){
 
-				String str=vector[j].getIzq().getSubFormula()+vector[j].getConector()+vector[j].getDer().getSubFormula();
+				String str=null;
+				if (vector[j].getDer()!=null) {
+					str=vector[j].getIzq().getSubFormula()+vector[j].getConector()+vector[j].getDer().getSubFormula();
+
+				}else {
+					str=vector[j].getIzq().getSubFormula()+vector[j].getConector();
+				}
+				String str1=null;
+				if (vector[j+1].getDer()!=null) {
+					str1=vector[j+1].getIzq().getSubFormula()+vector[j+1].getConector()+vector[j+1].getDer().getSubFormula();
+
+				}else {
+					str1=vector[j+1].getIzq().getSubFormula()+vector[j+1].getConector();
+				}
 				str=str.replace("null","");
-				String str1=vector[j+1].getIzq().getSubFormula()+vector[j+1].getConector()+vector[j+1].getDer().getSubFormula();
 				str1=str1.replace("null","");
 				int actual=str.length();
 				int actual1=str1.length();
@@ -151,7 +169,7 @@ public class TablaVerdad {
 		SubFormulaDerecha subDerecha= new SubFormulaDerecha(der, null);
 		SubFormulaIzquierda subIzq = new SubFormulaIzquierda(izq, null);
 		SubFormula subformula= new SubFormula(subDerecha, subIzq, conector);
-		System.out.println(subformula.getIzq().getSubFormula()+subformula.getConector()+subformula.getDer().getSubFormula());
+		//		System.out.println(subformula.getIzq().getSubFormula()+subformula.getConector()+subformula.getDer().getSubFormula());
 		subFormulas.add(subformula);
 	}
 
@@ -160,12 +178,12 @@ public class TablaVerdad {
 			ArrayList<String> solucionPrincipal= new ArrayList<String>();
 			String conector=subFormula.getConector();
 			if (conector!=null) {
-				if (esConjuncion(conector)) {
+				if (MetodosPredicados.esConjuncion(conector)) {
 					String iz=subFormula.getIzq().getSubFormula();
 					ArrayList<String> soluciones=buscarSoluciones(iz);
 					String der=subFormula.getDer().getSubFormula();
 					ArrayList<String> soluciones2=buscarSoluciones(der);
-					for (int i = 0; i < combinaciones; i++) {
+					for(int i = 0; i < combinaciones; i++) {
 						if (soluciones.get(i).equals("V") &&
 								soluciones2.get(i).equals("V")) {
 							solucionPrincipal.add("V");
@@ -177,6 +195,66 @@ public class TablaVerdad {
 					String formandoFormula="("+iz+")"+conector+"("+der+")";
 					asignadoSolucionSubformula(formandoFormula, solucionPrincipal);
 				}
+				if (MetodosPredicados.esDisjuncion(conector)) {
+					String iz=subFormula.getIzq().getSubFormula();
+					ArrayList<String> soluciones=buscarSoluciones(iz);
+					String der=subFormula.getDer().getSubFormula();
+					ArrayList<String> soluciones2=buscarSoluciones(der);
+					for(int i = 0; i < combinaciones; i++) {
+						if (soluciones.get(i).equals("V") || soluciones2.get(i).equals("V")) {
+							solucionPrincipal.add("V");
+						}else {
+							solucionPrincipal.add("F");
+						}
+					}
+					String formandoFormula="("+iz+")"+conector+"("+der+")";
+					asignadoSolucionSubformula(formandoFormula, solucionPrincipal);
+				}
+				if (MetodosPredicados.esCondicional(conector)) {
+					String iz=subFormula.getIzq().getSubFormula();
+					ArrayList<String> soluciones=buscarSoluciones(iz);
+					String der=subFormula.getDer().getSubFormula();
+					ArrayList<String> soluciones2=buscarSoluciones(der);
+					for(int i = 0; i < combinaciones; i++) {
+						if (soluciones.get(i).equals("V") && soluciones2.get(i).equals("F")) {
+							solucionPrincipal.add("F");
+						}else {
+							solucionPrincipal.add("V");
+						}
+					}
+					String formandoFormula="("+iz+")"+conector+"("+der+")";
+					asignadoSolucionSubformula(formandoFormula, solucionPrincipal);
+				}
+				if (MetodosPredicados.esBicondicional(conector)) {
+					String iz=subFormula.getIzq().getSubFormula();
+					ArrayList<String> soluciones=buscarSoluciones(iz);
+					String der=subFormula.getDer().getSubFormula();
+					ArrayList<String> soluciones2=buscarSoluciones(der);
+					for(int i = 0; i < combinaciones; i++) {
+						if (soluciones.get(i).equals("V") && soluciones2.get(i).equals("V")||
+								soluciones.get(i).equals("F") && soluciones2.get(i).equals("F")) {
+							solucionPrincipal.add("V");
+						}else {
+							solucionPrincipal.add("F");
+						}
+					}
+					String formandoFormula="("+iz+")"+conector+"("+der+")";
+					asignadoSolucionSubformula(formandoFormula, solucionPrincipal);
+				}
+				if (MetodosPredicados.esNegacion(conector)) {
+					String iz=subFormula.getIzq().getSubFormula();
+					ArrayList<String> soluciones=buscarSoluciones(iz);
+
+					for(int i = 0; i < combinaciones; i++) {
+						if (soluciones.get(i).equals("V")) {
+							solucionPrincipal.add("F");
+						}else {
+							solucionPrincipal.add("V");
+						}
+					}
+					String formandoFormula=conector+"("+iz+")";
+					asignadoSolucionSubformula(formandoFormula, solucionPrincipal);
+				}
 			}
 		}
 	}
@@ -186,24 +264,23 @@ public class TablaVerdad {
 			if (formula.equals(subFormulas.get(i).getIzq().getSubFormula()))
 				subFormulas.get(i).getIzq().setSoluciones(soluciones);
 
-			
-				if (subFormulas.get(i).getDer()!=null&&
-					formula.equals(subFormulas.get(i).getDer().getSubFormula())) 
-					subFormulas.get(i).getDer().setSoluciones(soluciones);
-			}
+			if (subFormulas.get(i).getDer()!=null&&formula.equals(subFormulas.get(i).getDer().getSubFormula())) 
+				subFormulas.get(i).getDer().setSoluciones(soluciones);
+		}
 	}
 
 	public ArrayList<String> buscarSoluciones(String subformula){
 		for (SubFormula subFormula : subFormulas) {
 			if (subformula.equals(subFormula.getIzq().getSubFormula()))
 				return subFormula.getIzq().getSoluciones();
+			if (subFormula.getDer()!=null && subformula.equals(subFormula.getDer().getSubFormula()))
+				return subFormula.getDer().getSoluciones();
 		}
 		return null;
 	}
 
 	public void llenarAtomos(){
 		ArrayList<Atomo> atomos=formula.getAtomos();
-		//		String vector[]= new String[3];
 		int cont=0;
 
 		for (Atomo atomo : atomos) {
@@ -218,7 +295,7 @@ public class TablaVerdad {
 				for (int i = 0; i < combinaciones/2; i++) {
 					soluciones.add("F");
 				}
-				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
+				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			case 2:
@@ -232,7 +309,7 @@ public class TablaVerdad {
 					}
 					c*=2;
 				}
-				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
+				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones),null));
 				break;
 			case 3:
@@ -247,7 +324,7 @@ public class TablaVerdad {
 					}
 					d*=2;
 				}
-				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
+				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			case 4:
@@ -261,7 +338,7 @@ public class TablaVerdad {
 					}
 					e*=2;
 				}
-				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
+				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			case 5:
@@ -275,7 +352,7 @@ public class TablaVerdad {
 					}
 					f*=2;
 				}
-				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
+				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			case 6:
@@ -285,7 +362,7 @@ public class TablaVerdad {
 					else
 						soluciones.add("F");
 				}
-				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
+				//				solocionesAtomos.add(new SubFormula(null,  new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				subFormulas.add(new SubFormula(null, new SubFormulaIzquierda(atomo.getLexema(), soluciones), null));
 				break;
 			default:
@@ -296,14 +373,53 @@ public class TablaVerdad {
 	}
 
 
-	public boolean esConjuncion(String conector){
-		return conector.equals(Constantes.CONJUNCION)||conector.equals(Constantes.CONJUNCION2);
-	}
+	//	public boolean esConjuncion(String conector){
+	//		return conector.equals(Constantes.CONJUNCION)||conector.equals(Constantes.CONJUNCION2);
+	//	}
+	//	public boolean esDisjuncion(String conector){
+	//		return conector.equals(Constantes.DISYUNCION);
+	//	}
+	//	
+	//	public boolean esCondicional(String conector){
+	//		return conector.equals(Constantes.CONDICIONAL);
+	//	}
+	//	public boolean esBicondicional(String conector){
+	//		return conector.equals(Constantes.BICONDICIONAL);
+	//	}
+	//	public boolean esNegacion(String conector){
+	//		return conector.equals(Constantes.NEGADO)||conector.equals(Constantes.NEGADO2);
+	//	}
 
-	public void recorrerFormulas(){
-		for (int i = 0; i < subFormulas.size(); i++) {
-			System.out.println(subFormulas.get(i));
+	public ArrayList<Object> filtrarSubformulas(){
+
+		int n=subFormulas.size();
+		//		String vectoAtomos[]= new String[n];
+		ArrayList<Object> subConSoluciones= new ArrayList<Object>();
+		for (int i = 0; i <n; i++) {
+			SubFormulaIzquierda sI=subFormulas.get(i).getIzq();
+			SubFormulaDerecha sD=subFormulas.get(i).getDer();
+			if (sI!=null && sI.getSoluciones()!=null) {
+				subConSoluciones.add(sI);
+			}
+			if (sD!=null && sD.getSoluciones()!=null) {
+				subConSoluciones.add(sD);
+			}
 		}
+		return subConSoluciones;
+	}
+	public String[] llenarCabecera(){
+		ArrayList<Object> formulas=filtrarSubformulas();
+		String vector[]= new String[formulas.size()];
+		for (int i = 0; i < formulas.size(); i++) {
+
+			if (formulas.get(i) instanceof SubFormulaIzquierda) {
+				vector[i]=((SubFormulaIzquierda) formulas.get(i)).getSubFormula();
+			}
+			else {
+				vector[i]=((SubFormulaDerecha) formulas.get(i)).getSubFormula();
+			}
+		}
+		return vector;
 	}
 
 	/**
@@ -320,34 +436,34 @@ public class TablaVerdad {
 	public void setCombinaciones(int combinaciones) {
 		this.combinaciones = combinaciones;
 	}
-	/**
-	 * Metodo que permite obtener filas
-	 * @return el filas
-	 */
-	public int getFilas() {
-		return filas;
-	}
-	/**
-	 * Metodo que permite asignar filas.
-	 * @param filas: el filas a asignar.
-	 */
-	public void setFilas(int filas) {
-		this.filas = filas;
-	}
-	/**
-	 * Metodo que permite obtener columnas
-	 * @return el columnas
-	 */
-	public int getColumnas() {
-		return columnas;
-	}
-	/**
-	 * Metodo que permite asignar columnas.
-	 * @param columnas: el columnas a asignar.
-	 */
-	public void setColumnas(int columnas) {
-		this.columnas = columnas;
-	}
+	//	/**
+	//	 * Metodo que permite obtener filas
+	//	 * @return el filas
+	//	 */
+	//	public int getFilas() {
+	//		return filas;
+	//	}
+	//	/**
+	//	 * Metodo que permite asignar filas.
+	//	 * @param filas: el filas a asignar.
+	//	 */
+	//	public void setFilas(int filas) {
+	//		this.filas = filas;
+	//	}
+	//	/**
+	//	 * Metodo que permite obtener columnas
+	//	 * @return el columnas
+	//	 */
+	//	public int getColumnas() {
+	//		return columnas;
+	//	}
+	//	/**
+	//	 * Metodo que permite asignar columnas.
+	//	 * @param columnas: el columnas a asignar.
+	//	 */
+	//	public void setColumnas(int columnas) {
+	//		this.columnas = columnas;
+	//	}
 	/**
 	 * Metodo que permite obtener formula
 	 * @return el formula
@@ -363,20 +479,37 @@ public class TablaVerdad {
 		this.formula = formula;
 	}
 
+	//	/**
+	//	 * Metodo que permite obtener solocionesAtomos
+	//	 * @return el solocionesAtomos
+	//	 */
+	//	public ArrayList<SubFormula> getSolocionesAtomos() {
+	//		return solocionesAtomos;
+	//	}
+	//
+	//	/**
+	//	 * Metodo que permite asignar solocionesAtomos.
+	//	 * @param solocionesAtomos: el solocionesAtomos a asignar.
+	//	 */
+	//	public void setSolocionesAtomos(ArrayList<SubFormula> solocionesAtomos) {
+	//		this.solocionesAtomos = solocionesAtomos;
+	//	}
+
 	/**
-	 * Metodo que permite obtener solocionesAtomos
-	 * @return el solocionesAtomos
+	 * Metodo que permite obtener subFormulas
+	 * @return el subFormulas
 	 */
-	public ArrayList<SubFormula> getSolocionesAtomos() {
-		return solocionesAtomos;
+	public ArrayList<SubFormula> getSubFormulas() {
+		return subFormulas;
 	}
 
 	/**
-	 * Metodo que permite asignar solocionesAtomos.
-	 * @param solocionesAtomos: el solocionesAtomos a asignar.
+	 * Metodo que permite asignar subFormulas.
+	 * @param subFormulas: el subFormulas a asignar.
 	 */
-	public void setSolocionesAtomos(ArrayList<SubFormula> solocionesAtomos) {
-		this.solocionesAtomos = solocionesAtomos;
+	public void setSubFormulas(ArrayList<SubFormula> subFormulas) {
+		this.subFormulas = subFormulas;
 	}
+
 
 }
